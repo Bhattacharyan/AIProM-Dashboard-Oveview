@@ -1,0 +1,6 @@
+{
+  "name": "Executive Project Intelligence & Risk Engine",
+  "description": "Executive portfolio dashboard featuring real-time project health distribution, AI risk detection, budget tracking, and interactive task breakdown.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
