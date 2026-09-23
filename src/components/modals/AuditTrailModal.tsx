@@ -24,26 +24,21 @@ export function AuditTrailModal({ isOpen, onClose, logs }: AuditTrailModalProps)
         
         {/* Header */}
         <div className="p-5 border-b border-slate-800 bg-[#0d1322] flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-indigo-950/80 border border-indigo-800/80 flex items-center justify-center text-indigo-400">
-              <ShieldCheck className="w-5 h-5" />
-            </div>
-            <div>
-              <h3 className="text-base font-bold text-white flex items-center gap-2">
-                Executive Action Audit Trail
-                <span className="text-xs font-normal text-slate-400 bg-slate-800 px-2 py-0.5 rounded-full">
-                  {logs.length} entries
-                </span>
-              </h3>
-              <p className="text-xs text-slate-400">
-                Immutable compliance log of governance decisions, task rebalances, and budget adjustments.
-              </p>
-            </div>
+          <div>
+            <h3 className="text-base font-bold text-white flex items-center gap-2">
+              Action Audit Trail
+              <span className="text-xs font-normal text-slate-400 font-mono">
+                ({logs.length} entries)
+              </span>
+            </h3>
+            <p className="text-xs text-slate-400 mt-0.5">
+              Chronological log of operational decisions, workload rebalances, and milestone adjustments.
+            </p>
           </div>
 
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -53,30 +48,28 @@ export function AuditTrailModal({ isOpen, onClose, logs }: AuditTrailModalProps)
         <div className="p-5 overflow-y-auto space-y-3 flex-1 text-xs">
           {logs.length === 0 ? (
             <div className="py-12 text-center text-slate-400">
-              <Clock className="w-8 h-8 text-slate-600 mx-auto mb-2" />
-              <p>No actions logged yet in this executive review session.</p>
-              <p className="text-[11px] text-slate-500 mt-1">Actions triggered in the AI Risk Engine will appear here.</p>
+              <p className="text-sm text-slate-300">No actions recorded in this session yet.</p>
+              <p className="text-xs text-slate-500 mt-1">Operational decisions taken in the resolution workflows will be logged here.</p>
             </div>
           ) : (
             logs.map((log) => (
               <div
                 key={log.id}
-                className="p-3.5 bg-slate-900/80 border border-slate-800 rounded-xl space-y-1.5"
+                className="p-3.5 bg-slate-900 border border-slate-800 rounded-lg space-y-1.5"
               >
                 <div className="flex items-center justify-between">
-                  <span className="font-bold text-white flex items-center gap-1.5">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                  <span className="font-semibold text-white">
                     {log.action}
                   </span>
                   <span className="text-[11px] font-mono text-slate-500">
                     {log.timestamp}
                   </span>
                 </div>
-                <p className="text-slate-300">
+                <p className="text-slate-300 text-xs">
                   {log.details}
                 </p>
-                <div className="flex items-center justify-between pt-1 border-t border-slate-800/60 text-[11px]">
-                  <span className="text-slate-400">Authorized by: <strong className="text-slate-200">{log.author}</strong></span>
+                <div className="flex items-center justify-between pt-1 border-t border-slate-800 text-[11px]">
+                  <span className="text-slate-400">Logged by: <span className="text-slate-200">{log.author}</span></span>
                   <span className="text-emerald-400 font-medium">{log.impact}</span>
                 </div>
               </div>
@@ -86,10 +79,10 @@ export function AuditTrailModal({ isOpen, onClose, logs }: AuditTrailModalProps)
 
         {/* Footer */}
         <div className="p-4 border-t border-slate-800 bg-[#0d1322] flex items-center justify-between text-xs text-slate-400">
-          <span>Cryptographically validated session state</span>
+          <span>Session log updated in real time</span>
           <button
             onClick={onClose}
-            className="px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-medium"
+            className="px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-medium cursor-pointer transition"
           >
             Close
           </button>

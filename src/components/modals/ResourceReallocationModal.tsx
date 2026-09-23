@@ -152,7 +152,7 @@ export function ResourceReallocationModal({
         {/* Footer */}
         <div className="p-4 border-t border-slate-800 bg-[#0d1322] flex items-center justify-between">
           <div className="text-xs text-slate-400">
-            Unblocking Impact: <strong className="text-emerald-400">2 critical tickets clear in ~48h</strong>
+            Unblocking Impact: <strong className="text-emerald-400">2 critical work items clear in ~48h</strong>
           </div>
 
           <div className="flex items-center gap-2">

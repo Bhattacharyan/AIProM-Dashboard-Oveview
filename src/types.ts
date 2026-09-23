@@ -22,17 +22,20 @@ export interface ProjectItem {
   manager: string;
   progress: number; // percentage 0-100
   tasks: ProjectTaskDistribution;
-  budgetStatus: number; // percentage of budget consumed e.g. 206
-  budgetLabel: string; // "Overrun" | "On-Track" | "Warning"
+  milestoneSla: string; // "Delayed (-14d)" | "On Schedule (+3d)" | "At-Risk (-4d)"
+  targetMilestone: string; // e.g. "Sprint 42 · Core Gateway"
+  slaVarianceDays: number; // negative is delay, positive is ahead
   health: HealthStatus;
   keyIssues?: string[];
   dueDate: string;
-  allocatedBudget: string;
-  spentBudget: string;
+  budgetStatus?: number; // percentage of budget consumed e.g. 206
+  budgetLabel?: string; // "Overrun" | "On-Track" | "Warning"
+  allocatedBudget?: string;
+  spentBudget?: string;
 }
 
 export interface RiskMatrixItem {
-  category: 'Schedule Risk' | 'Budget Risk' | 'Scope Creep';
+  category: 'Schedule Risk' | 'Budget Risk' | 'Milestone SLA Risk' | 'Scope Creep';
   severity: 'High' | 'Medium' | 'Low';
   detail: string;
   metric: string;

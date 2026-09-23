@@ -76,7 +76,7 @@ export function ReassignTasksModal({
                 <span className="text-xs text-slate-400">Mallionair Fintech App</span>
               </div>
               <h3 className="text-base font-bold text-white">
-                Reassign 14 Critically Overdue Tasks
+                Reassign 14 Critically Overdue Work Items
               </h3>
             </div>
           </div>
@@ -97,7 +97,7 @@ export function ReassignTasksModal({
             <div>
               <p className="font-semibold text-white">14 items are overdue by &gt;7 days</p>
               <p className="text-slate-300 mt-0.5">
-                Current assignee Marcus Chen is operating at 120% capacity with 3 critical security workstreams. Reallocating tasks immediately restores milestone confidence.
+                Current assignee Marcus Chen is operating at 120% capacity with 3 critical security workstreams. Reallocating work items immediately restores milestone confidence.
               </p>
             </div>
           </div>
@@ -161,7 +161,7 @@ export function ReassignTasksModal({
           <div>
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-                Tasks to Reassign ({selectedTasks.length} of {mallionairOverdueTasks.length} selected)
+                Work Items to Reassign ({selectedTasks.length} of {mallionairOverdueTasks.length} selected)
               </span>
               <button
                 type="button"

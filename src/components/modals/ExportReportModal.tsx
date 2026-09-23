@@ -37,9 +37,9 @@ export function ExportReportModal({
   };
 
   const handleDownloadCsv = () => {
-    const headers = 'Project Name,Department,Manager,Progress %,Open Tasks,In Progress,Blocked,Done,Budget %,Health\n';
+    const headers = 'Project Name,Department,Manager,Progress %,Open Work Items,In Progress,Blocked,Done,Milestone SLA,Health\n';
     const rows = projects.map(p => 
-      `"${p.name}","${p.department}","${p.manager}",${p.progress},${p.tasks.open},${p.tasks.inProgress},${p.tasks.blocked},${p.tasks.done},${p.budgetStatus}%,"${p.health}"`
+      `"${p.name}","${p.department}","${p.manager}",${p.progress},${p.tasks.open},${p.tasks.inProgress},${p.tasks.blocked},${p.tasks.done},"${p.milestoneSla}","${p.health}"`
     ).join('\n');
     
     const blob = new Blob([headers + rows], { type: 'text/csv;charset=utf-8;' });
@@ -64,7 +64,9 @@ export function ExportReportModal({
         manager: p.manager,
         progress: p.progress,
         tasks: p.tasks,
-        budgetStatus: p.budgetStatus,
+        milestoneSla: p.milestoneSla,
+        targetMilestone: p.targetMilestone,
+        dueDate: p.dueDate,
         health: p.health,
       })),
     };
@@ -83,11 +85,11 @@ export function ExportReportModal({
     const text = `EXECUTIVE PROJECT PORTFOLIO INTELLIGENCE BRIEF
 =============================================
 • Total Members: ${stats.totalMembers}
-• Active Projects: ${stats.activeProjects} (${stats.atRiskProjects} At-Risk, ${stats.overBudgetProjects} Over-Budget)
-• Tasks Completed (30d): ${stats.tasksCompleted30d} (+${stats.tasksCompletedChangePct}%)
+• Active Projects: ${stats.activeProjects} (${stats.atRiskProjects} At-Risk)
+• Work Items Completed (30d): ${stats.tasksCompleted30d} (+${stats.tasksCompletedChangePct}%)
 • Overall Project Health: ${stats.overallHealthPct}% On-Track (${stats.overallHealthChangePct}% vs last month)
 
-TASK STATUS BREAKDOWN:
+WORK ITEM STATUS BREAKDOWN:
 • Open: ${stats.totalOpenTasks}
 • In Progress: ${stats.totalInProgressTasks}
 • Done: ${stats.totalDoneTasks}
@@ -95,7 +97,7 @@ TASK STATUS BREAKDOWN:
 
 HIGH-PRIORITY RISK MATRIX:
 • Schedule Risk: High (14 items critically overdue)
-• Budget Risk: High (Mallionair at 206% budget)
+• SLA Variance: High (Mallionair delayed 14d)
 • Scope Creep: Medium (3 projects expanding scope)
 `;
     navigator.clipboard.writeText(text);
@@ -227,7 +229,7 @@ HIGH-PRIORITY RISK MATRIX:
                     <th className="py-2 px-3 text-center">In Progress</th>
                     <th className="py-2 px-3 text-center">Blocked</th>
                     <th className="py-2 px-3 text-center">Done</th>
-                    <th className="py-2 px-3">Budget</th>
+                    <th className="py-2 px-3">Milestone SLA</th>
                     <th className="py-2 px-3">Health</th>
                   </tr>
                 </thead>
@@ -240,7 +242,7 @@ HIGH-PRIORITY RISK MATRIX:
                       <td className="py-2 px-3 text-center font-mono text-amber-400">{p.tasks.inProgress}</td>
                       <td className="py-2 px-3 text-center font-mono text-rose-400">{p.tasks.blocked}</td>
                       <td className="py-2 px-3 text-center font-mono text-emerald-400">{p.tasks.done}</td>
-                      <td className="py-2 px-3 font-mono">{p.budgetStatus}% ({p.budgetLabel})</td>
+                      <td className="py-2 px-3 font-mono text-[11px] text-slate-300">{p.milestoneSla}</td>
                       <td className="py-2 px-3">
                         <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${
                           p.health === 'Critical' ? 'text-rose-400 bg-rose-950' : p.health === 'At-Risk' ? 'text-amber-400 bg-amber-950' : 'text-emerald-400 bg-emerald-950'

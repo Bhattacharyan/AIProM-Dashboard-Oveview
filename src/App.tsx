@@ -40,9 +40,19 @@ import { ExportReportModal } from './components/modals/ExportReportModal';
 import { ProjectDetailDrawer } from './components/modals/ProjectDetailDrawer';
 import { AuditTrailModal, AuditEntry } from './components/modals/AuditTrailModal';
 
+// Dedicated Action Screens
+import { ReassignWorkItemsScreen } from './components/screens/ReassignWorkItemsScreen';
+import { MilestoneScopeReviewScreen } from './components/screens/MilestoneScopeReviewScreen';
+import { ReallocateResourcesScreen } from './components/screens/ReallocateResourcesScreen';
+
 import { CheckCircle2, X } from 'lucide-react';
 
 export default function App() {
+  // Navigation State
+  const [currentScreen, setCurrentScreen] = useState<
+    'dashboard' | 'reassign_work_items' | 'milestone_scope_review' | 'reallocate_resources'
+  >('dashboard');
+
   // Primary Portfolio State
   const [stats, setStats] = useState<ExecutiveStats>(initialStats);
   const [projects, setProjects] = useState<ProjectItem[]>(initialProjects);
@@ -59,10 +69,10 @@ export default function App() {
     {
       id: 'log-0',
       timestamp: 'Today, 09:15 AM',
-      action: 'Risk Diagnostics Engine Initialized',
-      details: 'Evaluated 127 projects across 4 divisions. Flagged 12 At-Risk and 3 Over-Budget.',
-      author: 'AI Governance Daemon',
-      impact: 'Baseline Established',
+      action: 'Portfolio Health Scan Completed',
+      details: 'Evaluated 127 projects across 4 divisions. Identified 12 At-Risk projects and 1 delayed milestone.',
+      author: 'Operations PMO',
+      impact: 'Baseline Synchronized',
     },
   ]);
 
@@ -101,7 +111,7 @@ export default function App() {
       timestamp: 'Just now',
       action,
       details,
-      author: 'Executive PMO',
+      author: 'Portfolio Operations',
       impact,
     };
     setAuditLogs((prev) => [newEntry, ...prev]);
@@ -112,17 +122,17 @@ export default function App() {
     setIsRefreshing(true);
     setTimeout(() => {
       setIsRefreshing(false);
-      showToast('Portfolio telemetries synchronized with Jira and ERP ledger.');
-    }, 700);
+      showToast('Portfolio status synchronized.');
+    }, 600);
   }, []);
 
-  // Action: Run AI Risk Diagnostics
+  // Action: Run Risk Diagnostics
   const handleRunAiDiagnostics = useCallback(() => {
     setIsAnalyzing(true);
     setTimeout(() => {
       setIsAnalyzing(false);
-      showToast('AI Risk scan finished. 3 threat vectors re-scored with 96.4% confidence.');
-    }, 900);
+      showToast('Portfolio risk factors refreshed.');
+    }, 700);
   }, []);
 
   // Action: Reassign 14 Tasks Handler
@@ -144,7 +154,7 @@ export default function App() {
               ...p,
               health: 'At-Risk',
               progress: 52,
-              keyIssues: ['Overdue tasks reassigned to Builtech team', 'Scope review in progress'],
+              keyIssues: ['Overdue tasks reassigned to engineering squad', 'Scope review in progress'],
             }
           : p
       )
@@ -181,15 +191,16 @@ export default function App() {
     }));
 
     addAuditLog(
-      'Reassigned 14 Overdue Tasks',
-      `Transferred 14 tasks from Mallionair Fintech App to ${targetAssignee}.`,
-      'Schedule Risk Cleared'
+      'Reassigned 14 Work Items',
+      `Transferred 14 work items from Mallionair Fintech App to ${targetAssignee}.`,
+      'Schedule Bottleneck Cleared'
     );
 
-    showToast(`Successfully reassigned 14 overdue tasks to ${targetAssignee}.`);
+    setCurrentScreen('dashboard');
+    showToast(`Successfully reassigned 14 work items to ${targetAssignee}.`);
   };
 
-  // Action: Approve Budget Review
+  // Action: Approve Scope Review
   const handleApproveBudgetRevision = (newCap: string, scopeFrozen: boolean) => {
     // 1. Update Mallionair project
     setProjects((prev) =>
@@ -201,7 +212,7 @@ export default function App() {
               budgetStatus: 98,
               budgetLabel: 'On-Track',
               health: 'Good',
-              keyIssues: ['Budget re-baselined with CFO contingency approval', 'Scope frozen'],
+              keyIssues: ['Milestone scope frozen and realigned', 'SLA on schedule'],
             }
           : p
       )
@@ -214,7 +225,7 @@ export default function App() {
           ? {
               ...r,
               severity: 'Low',
-              detail: 'Contingency allocated; variance mitigated',
+              detail: 'Scope frozen and gate timeline restored',
               impactScore: 32,
             }
           : r
@@ -230,12 +241,13 @@ export default function App() {
     }));
 
     addAuditLog(
-      'Authorized Budget Cap Adjustment',
-      `Re-baselined Mallionair Fintech App cap to ${newCap}. Non-essential scope frozen: ${scopeFrozen ? 'Yes' : 'No'}.`,
-      'Budget Variance Resolved'
+      'Milestone Scope Review Approved',
+      `Realigned Sprint 42 gate for Mallionair Fintech App. Scope frozen: ${scopeFrozen ? 'Yes' : 'No'}.`,
+      'Milestone SLA Restored'
     );
 
-    showToast(`Mallionair Fintech budget re-baselined to ${newCap}. Status updated to On-Track.`);
+    setCurrentScreen('dashboard');
+    showToast(`Mallionair Fintech scope frozen. Milestone gate aligned with schedule.`);
   };
 
   // Action: Reallocate Resources to Spark MMT
@@ -252,7 +264,7 @@ export default function App() {
                 blocked: 0,
                 inProgress: p.tasks.inProgress + 2,
               },
-              keyIssues: ['Resource bottleneck resolved by Builtech loan'],
+              keyIssues: ['Resource bottleneck resolved by team loan'],
             }
           : p
       )
@@ -287,11 +299,12 @@ export default function App() {
 
     addAuditLog(
       'Resource Reallocation Approved',
-      `Transferred ${assignedEngineers.join(' & ')} from Builtech to Spark MMT. Cleared 2 blocked frontend workflows.`,
+      `Assigned ${assignedEngineers.join(' & ')} to Spark MMT. Cleared 2 blocked frontend work items.`,
       'Bottleneck Unblocked'
     );
 
-    showToast(`Transferred ${assignedEngineers.join(' & ')} to Spark MMT. Blockers cleared.`);
+    setCurrentScreen('dashboard');
+    showToast(`Assigned ${assignedEngineers.join(' & ')} to Spark MMT. Blockers cleared.`);
   };
 
   // Action: Update single task status in modal
@@ -308,14 +321,14 @@ export default function App() {
     setExportModalOpen(true);
   };
 
-  // Trigger quick action by type
+  // Trigger action: route to dedicated operational screens
   const handleTriggerAction = (type: 'reassign_tasks' | 'budget_review' | 'reallocate_resources') => {
     if (type === 'reassign_tasks') {
-      setReassignModalOpen(true);
+      setCurrentScreen('reassign_work_items');
     } else if (type === 'budget_review') {
-      setBudgetReviewModalOpen(true);
+      setCurrentScreen('milestone_scope_review');
     } else if (type === 'reallocate_resources') {
-      setResourceReallocModalOpen(true);
+      setCurrentScreen('reallocate_resources');
     }
   };
 
@@ -331,67 +344,83 @@ export default function App() {
 
       {/* Main Container */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        
-        {/* 1. Executive Summary Cards */}
-        <ExecutiveCards
-          stats={stats}
-          onFilterHealth={(health) => setHealthFilter(health)}
-          activeHealthFilter={healthFilter}
-          onOpenTeamModal={() => setTeamModalOpen(true)}
-          onOpenCompletedTasksModal={() => setTaskDetailModalStatus('Done')}
-        />
+        {currentScreen === 'reassign_work_items' ? (
+          <ReassignWorkItemsScreen
+            tasks={allTasks.filter((t) => t.projectId === 'mallionair' && t.daysOverdue > 0)}
+            onBack={() => setCurrentScreen('dashboard')}
+            onExecute={handleConfirmReassignTasks}
+          />
+        ) : currentScreen === 'milestone_scope_review' ? (
+          <MilestoneScopeReviewScreen
+            onBack={() => setCurrentScreen('dashboard')}
+            onExecute={(cap, frozen) => handleApproveBudgetRevision(cap, frozen)}
+          />
+        ) : currentScreen === 'reallocate_resources' ? (
+          <ReallocateResourcesScreen
+            onBack={() => setCurrentScreen('dashboard')}
+            onExecute={handleConfirmReallocation}
+          />
+        ) : (
+          <>
+            {/* 1. Executive Summary Cards */}
+            <ExecutiveCards
+              stats={stats}
+              onFilterHealth={(health) => setHealthFilter(health)}
+              activeHealthFilter={healthFilter}
+              onOpenTeamModal={() => setTeamModalOpen(true)}
+              onOpenCompletedTasksModal={() => setTaskDetailModalStatus('Done')}
+            />
 
-        {/* 2. Filter & Control Bar */}
-        <FilterControlBar
-          department={department}
-          setDepartment={setDepartment}
-          manager={manager}
-          setManager={setManager}
-          healthFilter={healthFilter}
-          setHealthFilter={setHealthFilter}
-          timeframe={timeframe}
-          setTimeframe={setTimeframe}
-          onRefresh={handleRefresh}
-          isRefreshing={isRefreshing}
-          onExport={handleOpenExport}
-        />
+            {/* 2. Filter & Control Bar */}
+            <FilterControlBar
+              manager={manager}
+              setManager={setManager}
+              healthFilter={healthFilter}
+              setHealthFilter={setHealthFilter}
+              timeframe={timeframe}
+              setTimeframe={setTimeframe}
+              onRefresh={handleRefresh}
+              isRefreshing={isRefreshing}
+              onExport={handleOpenExport}
+            />
 
-        {/* 3. Project Performance & Status Distribution */}
-        <ProjectDistribution
-          projects={projects}
-          departmentFilter={department}
-          managerFilter={manager}
-          healthFilter={healthFilter}
-          onSelectProject={(proj) => setSelectedProjectForDrawer(proj)}
-        />
+            {/* 3. Project Performance & Status Distribution */}
+            <ProjectDistribution
+              projects={projects}
+              managerFilter={manager}
+              healthFilter={healthFilter}
+              onSelectProject={(proj) => setSelectedProjectForDrawer(proj)}
+            />
 
-        {/* 4. Aggregated AI Risk Engine & Insights */}
-        <AiRiskEngine
-          riskMatrix={riskMatrix}
-          insights={insights}
-          onTriggerAction={handleTriggerAction}
-          onRunAiDiagnostics={handleRunAiDiagnostics}
-          isAnalyzing={isAnalyzing}
-        />
+            {/* 4. Action Center & Mitigation Workflows */}
+            <AiRiskEngine
+              riskMatrix={riskMatrix}
+              insights={insights}
+              onTriggerAction={handleTriggerAction}
+              onOpenScreen={(screen) => setCurrentScreen(screen)}
+              onRunAiDiagnostics={handleRunAiDiagnostics}
+              isAnalyzing={isAnalyzing}
+            />
 
-        {/* 5. Interactive Task Breakdown */}
-        <TaskBreakdown
-          stats={stats}
-          onSelectStatus={(status) => setTaskDetailModalStatus(status)}
-        />
-
+            {/* 5. Interactive Task Breakdown */}
+            <TaskBreakdown
+              stats={stats}
+              onSelectStatus={(status) => setTaskDetailModalStatus(status)}
+            />
+          </>
+        )}
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-800/80 bg-[#0d1322] py-4 text-xs text-slate-500">
+      <footer className="border-t border-slate-800 bg-[#0d1322] py-4 text-xs text-slate-500">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2">
           <div>
-            Executive Project Intelligence & Risk Engine · High-Precision Portfolio Oversight
+            Enterprise Project Portfolio & Operations Management
           </div>
           <div className="flex items-center gap-4 text-slate-400">
             <span>Server: Asia-Southeast1</span>
             <span>·</span>
-            <span>Security: ISO 27001 Certified</span>
+            <span>Security: SOC2 & ISO 27001</span>
           </div>
         </div>
       </footer>
@@ -457,9 +486,18 @@ export default function App() {
       <ProjectDetailDrawer
         project={selectedProjectForDrawer}
         onClose={() => setSelectedProjectForDrawer(null)}
-        onTriggerReassign={() => setReassignModalOpen(true)}
-        onTriggerBudgetReview={() => setBudgetReviewModalOpen(true)}
-        onTriggerReallocate={() => setResourceReallocModalOpen(true)}
+        onTriggerReassign={() => {
+          setSelectedProjectForDrawer(null);
+          setCurrentScreen('reassign_work_items');
+        }}
+        onTriggerBudgetReview={() => {
+          setSelectedProjectForDrawer(null);
+          setCurrentScreen('milestone_scope_review');
+        }}
+        onTriggerReallocate={() => {
+          setSelectedProjectForDrawer(null);
+          setCurrentScreen('reallocate_resources');
+        }}
       />
 
       <AuditTrailModal

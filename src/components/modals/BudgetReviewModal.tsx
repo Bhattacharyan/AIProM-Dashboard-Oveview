@@ -78,7 +78,7 @@ export function BudgetReviewModal({
             <div className="flex items-center justify-between font-bold text-white mb-2">
               <span className="flex items-center gap-1.5 text-rose-400">
                 <AlertTriangle className="w-4 h-4" />
-                206% Budget Consumption Overrun
+                206% Expenditure & Scope Overrun
               </span>
               <span className="font-mono text-xs bg-rose-950 px-2 py-0.5 rounded border border-rose-800">
                 Variance: +$477,000

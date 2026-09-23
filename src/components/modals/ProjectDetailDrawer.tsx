@@ -88,14 +88,14 @@ export function ProjectDetailDrawer({
             </div>
 
             <div className="p-3 bg-slate-900 border border-slate-800 rounded-xl">
-              <span className="text-[10px] uppercase font-semibold text-slate-400">Budget Consumption</span>
-              <div className={`text-xl font-bold mt-0.5 ${
-                project.budgetStatus > 150 ? 'text-rose-400' : project.budgetStatus > 100 ? 'text-amber-400' : 'text-emerald-400'
+              <span className="text-[10px] uppercase font-semibold text-slate-400">Milestone SLA Variance</span>
+              <div className={`text-xl font-bold mt-0.5 font-mono ${
+                project.slaVarianceDays < -7 ? 'text-rose-400' : project.slaVarianceDays < 0 ? 'text-amber-400' : 'text-emerald-400'
               }`}>
-                {project.budgetStatus}% <span className="text-xs font-normal">({project.budgetLabel})</span>
+                {project.milestoneSla || 'On Schedule'}
               </div>
               <span className="text-[10px] text-slate-400 block mt-1">
-                {project.spentBudget} spent of {project.allocatedBudget}
+                {project.targetMilestone || 'Milestone Delivery Gate'}
               </span>
             </div>
           </div>
@@ -108,18 +108,18 @@ export function ProjectDetailDrawer({
             </div>
             <div className="flex justify-between py-1 border-b border-slate-800/80">
               <span className="text-slate-400">Target Milestone Date:</span>
-              <strong className="text-white">{project.dueDate}</strong>
+              <strong className="text-white font-mono">{project.dueDate}</strong>
             </div>
             <div className="flex justify-between py-1">
               <span className="text-slate-400">Total Backlog Volume:</span>
-              <strong className="text-white font-mono">{totalTasks} tasks</strong>
+              <strong className="text-white font-mono">{totalTasks} work items</strong>
             </div>
           </div>
 
           {/* Task Distribution Status */}
           <div>
             <h4 className="font-bold text-white text-xs uppercase tracking-wider mb-2">
-              Workstream Task Distribution
+              Workstream Work Item Distribution
             </h4>
             <div className="grid grid-cols-4 gap-2 text-center">
               <div className="p-2.5 bg-slate-900 border border-slate-800 rounded-lg">
@@ -161,12 +161,12 @@ export function ProjectDetailDrawer({
 
           {/* Contextual Quick Actions */}
           {project.id === 'mallionair' && (
-            <div className="p-4 bg-rose-950/20 border border-rose-900/60 rounded-xl space-y-2">
-              <span className="font-bold text-rose-300 text-xs block">
-                Executive Action Recommended
+            <div className="p-4 bg-slate-900 border border-slate-800 rounded-xl space-y-2">
+              <span className="font-bold text-rose-400 text-xs block">
+                Mitigation Workflow Available
               </span>
               <p className="text-[11px] text-slate-300">
-                14 overdue tasks and 206% budget overrun require immediate executive intervention.
+                14 overdue work items and 14-day milestone delay require operational rebalancing.
               </p>
               <div className="flex items-center gap-2 pt-1">
                 {onTriggerReassign && (
@@ -175,9 +175,9 @@ export function ProjectDetailDrawer({
                       onClose();
                       onTriggerReassign();
                     }}
-                    className="px-3 py-1.5 bg-rose-600 hover:bg-rose-500 text-white font-semibold rounded-lg text-xs cursor-pointer"
+                    className="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-lg text-xs cursor-pointer"
                   >
-                    Reassign 14 Tasks
+                    Reassign 14 Work Items
                   </button>
                 )}
                 {onTriggerBudgetReview && (
@@ -188,7 +188,7 @@ export function ProjectDetailDrawer({
                     }}
                     className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold rounded-lg text-xs cursor-pointer"
                   >
-                    Request Budget Review
+                    Milestone Scope Review
                   </button>
                 )}
               </div>
@@ -196,12 +196,12 @@ export function ProjectDetailDrawer({
           )}
 
           {project.id === 'spark-mmt' && project.tasks.blocked > 0 && (
-            <div className="p-4 bg-amber-950/20 border border-amber-900/60 rounded-xl space-y-2">
-              <span className="font-bold text-amber-300 text-xs block">
-                Resource Bottleneck Detected
+            <div className="p-4 bg-slate-900 border border-slate-800 rounded-xl space-y-2">
+              <span className="font-bold text-amber-400 text-xs block">
+                Resource Deficit Detected
               </span>
               <p className="text-[11px] text-slate-300">
-                2 blocked frontend workflows can be immediately unblocked by borrowing available capacity from Builtech Learning.
+                2 blocked frontend work items can be immediately cleared by borrowing available capacity from Builtech Learning.
               </p>
               {onTriggerReallocate && (
                 <button
@@ -209,7 +209,7 @@ export function ProjectDetailDrawer({
                     onClose();
                     onTriggerReallocate();
                   }}
-                  className="px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-white font-semibold rounded-lg text-xs cursor-pointer"
+                  className="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-lg text-xs cursor-pointer"
                 >
                   Reallocate Resources
                 </button>

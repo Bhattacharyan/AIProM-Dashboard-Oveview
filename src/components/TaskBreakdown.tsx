@@ -22,13 +22,13 @@ export function TaskBreakdown({ stats, onSelectStatus }: TaskBreakdownProps) {
       <div className="flex items-center justify-between mb-3">
         <div>
           <h2 className="text-base font-bold text-white tracking-tight flex items-center gap-2">
-            Interactive Task Breakdown
+            Interactive Work Item Breakdown
             <span className="text-xs font-normal text-slate-400 bg-slate-800/80 px-2 py-0.5 rounded-full font-mono">
               {totalTasks.toLocaleString()} Portfolio Items
             </span>
           </h2>
           <p className="text-xs text-slate-400 mt-0.5">
-            Real-time status aggregates across all 127 active initiatives. Click any status card to inspect active tickets.
+            Real-time status aggregates across all 127 active initiatives. Click any status card to inspect active work items.
           </p>
         </div>
       </div>
@@ -54,7 +54,7 @@ export function TaskBreakdown({ stats, onSelectStatus }: TaskBreakdownProps) {
             <span className="text-3xl font-extrabold text-white tracking-tight group-hover:text-sky-300 transition-colors">
               {stats.totalOpenTasks}
             </span>
-            <span className="text-xs text-slate-400">tickets</span>
+            <span className="text-xs text-slate-400">work items</span>
           </div>
 
           <div className="mt-3 pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">

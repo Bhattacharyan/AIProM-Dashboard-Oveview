@@ -14,8 +14,6 @@ import {
 import { DepartmentOption, ManagerOption, TimeframeOption } from '../types';
 
 interface FilterControlBarProps {
-  department: DepartmentOption;
-  setDepartment: (dept: DepartmentOption) => void;
   manager: ManagerOption;
   setManager: (mgr: ManagerOption) => void;
   healthFilter: string;
@@ -28,8 +26,6 @@ interface FilterControlBarProps {
 }
 
 export function FilterControlBar({
-  department,
-  setDepartment,
   manager,
   setManager,
   healthFilter,
@@ -54,24 +50,6 @@ export function FilterControlBar({
             <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-400 mr-1">
               <SlidersHorizontal className="w-3.5 h-3.5 text-indigo-400" />
               <span>Quick Filters:</span>
-            </div>
-
-            {/* Department Filter */}
-            <div className="relative">
-              <select
-                value={department}
-                onChange={(e) => setDepartment(e.target.value as DepartmentOption)}
-                aria-label="Department filter"
-                className="appearance-none bg-slate-900 border border-slate-700 hover:border-slate-600 text-slate-200 text-xs font-medium rounded-lg pl-3 pr-8 py-2 focus:outline-none focus:ring-1 focus:ring-indigo-500 cursor-pointer"
-              >
-                <option value="All">Department: All</option>
-                <option value="Engineering">Department: Engineering</option>
-                <option value="Product">Department: Product</option>
-                <option value="Design">Department: Design</option>
-                <option value="Infrastructure">Department: Infrastructure</option>
-                <option value="Finance">Department: Finance</option>
-              </select>
-              <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-2.5 pointer-events-none" />
             </div>
 
             {/* Manager Filter */}

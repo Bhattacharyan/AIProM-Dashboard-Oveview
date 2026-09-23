@@ -85,13 +85,13 @@ export function TaskDetailModal({
             </span>
             <div>
               <h3 className="text-base font-bold text-white flex items-center gap-2">
-                Task Breakdown Drilldown
+                Work Item Breakdown Drilldown
                 <span className="text-xs font-normal text-slate-400 bg-slate-800 px-2 py-0.5 rounded-full">
                   {status === 'Open' ? '726 Items' : status === 'In Progress' ? '85 Items' : status === 'Done' ? '417 Items' : '0 Items (All clear)'}
                 </span>
               </h3>
               <p className="text-xs text-slate-400">
-                Filtered view of tickets across active project repositories.
+                Filtered view of work items across active project repositories.
               </p>
             </div>
           </div>
@@ -110,7 +110,7 @@ export function TaskDetailModal({
             <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-2.5" />
             <input
               type="text"
-              placeholder="Search by ticket ID, keyword, or assignee..."
+              placeholder="Search by work item ID, keyword, or assignee..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full bg-slate-950 border border-slate-700 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-indigo-500"
